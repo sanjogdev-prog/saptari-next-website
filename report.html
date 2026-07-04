@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report &amp; Request — Saptari Next</title>
+<link rel="icon" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site"></header>
+
+<section class="block">
+  <div class="container" style="max-width:760px;">
+    <h2 class="title" data-i18n="report.title">Report &amp; Request</h2>
+    <p class="subtitle" data-i18n="report.sub">Send the campaign office field observations, project progress, data for the research library, issues, or requests for archive materials. Reports are reviewed by the office and may be published as campaign updates.</p>
+    <div id="formNotice"></div>
+
+    <form class="sn card" id="reportForm">
+      <label data-i18n="form.name">Name</label>
+      <input name="name" required>
+
+      <label data-i18n="form.email">Email or phone</label>
+      <input name="contact" required>
+
+      <label data-i18n="form.municipality">Municipality / location</label>
+      <select name="municipality">
+        <option>Rajbiraj</option><option>Kanchanrup</option><option>Hanumannagar Kankalini</option>
+        <option>Khadak</option><option>Surunga</option><option>Dakneshwori</option><option>Bodebarsain</option>
+        <option>Sambhunath</option><option>Saptakoshi</option><option>Tilathi Koiladi</option><option>Rajgadh</option>
+        <option>Agnisaira Krishnasavaran</option><option>Mahadeva</option><option>Chhinnamasta</option>
+        <option>Rupani</option><option>Bishnupur</option><option>Tirhut</option><option>Balan-Bihul</option>
+        <option>Outside Saptari / diaspora</option>
+      </select>
+
+      <label data-i18n="report.category">Report type</label>
+      <select name="category">
+        <option value="progress" data-i18n="report.cat.progress">Project progress</option>
+        <option value="issue" data-i18n="report.cat.issue">Issue / grievance</option>
+        <option value="data" data-i18n="report.cat.data">Data / research material (share or request)</option>
+        <option value="idea" data-i18n="report.cat.idea">Suggestion / idea</option>
+      </select>
+
+      <label data-i18n="report.detail">Details</label>
+      <textarea name="message" required placeholder="What did you observe? Which project or place does it concern? Links to photos or documents are welcome."></textarea>
+
+      <p style="margin-top:18px;"><button class="btn primary" type="submit" data-i18n="form.submit">Submit</button></p>
+    </form>
+  </div>
+</section>
+
+<footer class="site"></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("reportForm");
+  const notice = document.getElementById("formNotice");
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    if (SN.demoMode()) {
+      // No database yet — fall back to email so no report is lost.
+      const body = encodeURIComponent(
+        `Report type: ${data.category}\nName: ${data.name}\nContact: ${data.contact}\nMunicipality: ${data.municipality}\n\n${data.message}`);
+      location.href = `mailto:${SN.config.CONTACT_EMAIL}?subject=${encodeURIComponent("[Saptari Next] Report from " + data.name)}&body=${body}`;
+      notice.innerHTML = '<p class="notice info">Database not connected yet — your report was opened in your email app instead. Press send there.</p>';
+      return;
+    }
+
+    const { error } = await SN.db().from("reports").insert({
+      name: data.name, contact: data.contact, municipality: data.municipality,
+      category: data.category, message: data.message
+    });
+    notice.innerHTML = error
+      ? `<p class="notice warn">Could not submit: ${error.message}</p>`
+      : '<p class="notice ok">Thank you — your report has been received by the campaign office.</p>';
+    if (!error) form.reset();
+    notice.scrollIntoView({ behavior: "smooth" });
+  });
+});
+</script>
+</body>
+</html>

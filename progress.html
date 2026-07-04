@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects &amp; Progress — Saptari Next</title>
+<link rel="icon" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site"></header>
+
+<section class="block">
+  <div class="container">
+    <h2 class="title" data-i18n="progress.title">Projects &amp; Progress</h2>
+    <p class="subtitle" data-i18n="progress.sub">The campaign's projects, programs and their public progress record. Radical transparency is our accountability mechanism — anyone can track every initiative here.</p>
+    <div id="modeNotice"></div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;" id="pillarFilter">
+      <button class="btn primary" data-pillar="all">All</button>
+      <button class="btn" style="border:1px solid var(--border);background:#fff;" data-pillar="Project">Project</button>
+      <button class="btn" style="border:1px solid var(--border);background:#fff;" data-pillar="Program">Program</button>
+      <button class="btn" style="border:1px solid var(--border);background:#fff;" data-pillar="Poll">Poll</button>
+      <button class="btn" style="border:1px solid var(--border);background:#fff;" data-pillar="Publication">Publication</button>
+    </div>
+
+    <div class="grid c2" id="projectList"></div>
+  </div>
+</section>
+
+<section class="block alt">
+  <div class="container">
+    <h2 class="title" data-i18n="progress.updates">Latest Updates</h2>
+    <div class="grid c2" id="updateList"></div>
+  </div>
+</section>
+
+<footer class="site"></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(async function () {
+  await new Promise(r => document.addEventListener("DOMContentLoaded", r));
+  let projects = SN.DEMO.projects, updates = SN.DEMO.updates;
+
+  if (!SN.demoMode()) {
+    const db = SN.db();
+    const p = await db.from("projects").select("*").order("start_date", { ascending: false });
+    const u = await db.from("updates").select("*").eq("published", true).order("created_at", { ascending: false }).limit(10);
+    if (!p.error && p.data.length) projects = p.data;
+    if (!u.error) updates = u.data;
+  } else {
+    document.getElementById("modeNotice").innerHTML =
+      '<p class="notice info">Showing sample data (demo mode). Once the campaign database is connected, this dashboard updates live.</p>';
+  }
+
+  function render(pillar) {
+    const list = pillar === "all" ? projects : projects.filter(p => p.pillar === pillar);
+    document.getElementById("projectList").innerHTML = list.map(p => `
+      <div class="card">
+        <span class="badge ${p.status}">${p.status}</span>
+        <h3 style="margin-top:8px;">${p.title}</h3>
+        ${p.title_ne ? `<p style="color:var(--muted);font-size:0.9rem;">${p.title_ne}</p>` : ""}
+        <p style="margin:8px 0;">${p.summary || ""}</p>
+        <p style="font-size:0.85rem;color:var(--muted);">${p.pillar} · ${p.location || ""}</p>
+        <div class="progress-track" style="margin-top:10px;"><div class="progress-fill" style="width:${p.progress || 0}%"></div></div>
+        <p style="font-size:0.85rem;color:var(--muted);text-align:right;">${p.progress || 0}%</p>
+      </div>`).join("") || '<p class="notice warn">No items in this pillar yet.</p>';
+  }
+  render("all");
+
+  document.getElementById("pillarFilter").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    document.querySelectorAll("#pillarFilter .btn").forEach(x => { x.classList.remove("primary"); x.style.background = "#fff"; });
+    b.classList.add("primary"); b.style.background = "";
+    render(b.dataset.pillar);
+  });
+
+  document.getElementById("updateList").innerHTML = updates.map(u => `
+    <div class="card">
+      <p style="font-size:0.85rem;color:var(--muted);">${(u.created_at || "").slice(0, 10)}</p>
+      <h3>${u.title}</h3>
+      <p>${u.body || ""}</p>
+    </div>`).join("") || "<p>No updates published yet.</p>";
+})();
+</script>
+</body>
+</html>

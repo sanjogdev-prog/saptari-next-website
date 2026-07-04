@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get Involved — Saptari Next</title>
+<link rel="icon" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site"></header>
+
+<section class="block">
+  <div class="container">
+    <h2 class="title" data-i18n="join.title">Getting Involved</h2>
+    <p class="subtitle" data-i18n="join.sub">Saptari Next invites individuals and organisations to:</p>
+    <div class="grid c4">
+      <div class="card"><span class="pill-num">1</span><h3 data-i18n="join.join.t">Join</h3><p data-i18n="join.join.b">Register as a campaign supporter or partner organisation.</p></div>
+      <div class="card"><span class="pill-num">2</span><h3 data-i18n="join.contribute.t">Contribute</h3><p data-i18n="join.contribute.b">Offer expertise, data, funding or networks to a pillar or focus area.</p></div>
+      <div class="card"><span class="pill-num">3</span><h3 data-i18n="join.adopt.t">Adopt</h3><p data-i18n="join.adopt.b">Take ownership of a project or program in your community or sector.</p></div>
+      <div class="card"><span class="pill-num">4</span><h3 data-i18n="join.inform.t">Inform</h3><p data-i18n="join.inform.b">Participate in polls and consultations so the campaign reflects the district's real priorities.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block alt">
+  <div class="container" style="max-width:760px;">
+    <h2 class="title" data-i18n="join.form.title">Registration Form</h2>
+    <div id="formNotice"></div>
+    <form class="sn card" id="joinForm">
+      <label data-i18n="form.name">Name</label>
+      <input name="name" required>
+
+      <label data-i18n="form.email">Email</label>
+      <input name="email" type="email" required>
+
+      <label data-i18n="form.phone">Phone (optional)</label>
+      <input name="phone">
+
+      <label data-i18n="form.type">I am…</label>
+      <select name="type">
+        <option value="individual" data-i18n="form.type.individual">An individual</option>
+        <option value="organisation" data-i18n="form.type.org">An organisation</option>
+        <option value="diaspora" data-i18n="form.type.diaspora">In the diaspora</option>
+      </select>
+
+      <label data-i18n="form.interest">Area of interest</label>
+      <select name="interest">
+        <option>Civic society engagement</option>
+        <option>Energy production</option>
+        <option>Business promotion</option>
+        <option>Funding &amp; incubation (endowment fund)</option>
+        <option>Environment conservation</option>
+        <option>Research &amp; publication</option>
+        <option>Polls &amp; opinion research</option>
+      </select>
+
+      <label data-i18n="form.message">Message (optional)</label>
+      <textarea name="message" placeholder="How would you like to contribute?"></textarea>
+
+      <p style="margin-top:18px;"><button class="btn primary" type="submit" data-i18n="form.submit">Submit</button></p>
+    </form>
+    <p class="notice info" style="margin-top:16px;">Or reach the office directly: <strong>Saptari Next Office, Rajbiraj, Saptari</strong> · <a href="https://www.facebook.com/p/Saptari-Next-100088305311404/" target="_blank" rel="noopener">Facebook</a> · #SaptariNext</p>
+  </div>
+</section>
+
+<footer class="site"></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("joinForm");
+  const notice = document.getElementById("formNotice");
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    if (SN.demoMode()) {
+      const body = encodeURIComponent(`Type: ${data.type}\nName: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nInterest: ${data.interest}\n\n${data.message}`);
+      location.href = `mailto:${SN.config.CONTACT_EMAIL}?subject=${encodeURIComponent("[Saptari Next] Registration: " + data.name)}&body=${body}`;
+      notice.innerHTML = '<p class="notice info">Database not connected yet — your registration was opened in your email app instead. Press send there.</p>';
+      return;
+    }
+    const { error } = await SN.db().from("members").insert(data);
+    notice.innerHTML = error
+      ? `<p class="notice warn">Could not submit: ${error.message}</p>`
+      : '<p class="notice ok">Welcome to Saptari Next! The office will be in touch.</p>';
+    if (!error) form.reset();
+    notice.scrollIntoView({ behavior: "smooth" });
+  });
+});
+</script>
+</body>
+</html>
