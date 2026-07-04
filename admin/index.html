@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — Saptari Next</title>
+<link rel="icon" href="../assets/img/logo.png">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site"></header>
+
+<div class="admin-wrap">
+  <!-- Login -->
+  <div id="loginView">
+    <div class="card login-box">
+      <h2 class="title">Campaign Admin</h2>
+      <div id="loginNotice"></div>
+      <form class="sn" id="loginForm">
+        <label>Email</label>
+        <input name="email" type="email" required>
+        <label>Password</label>
+        <input name="password" type="password" required>
+        <p style="margin-top:18px;"><button class="btn primary" type="submit" style="width:100%;">Sign in</button></p>
+      </form>
+      <p id="demoHint" style="font-size:0.85rem;color:var(--muted);margin-top:12px;display:none;">
+        Demo mode (no database connected): use password <code>saptari-demo</code> with any email.
+        Changes are stored only in this browser.
+      </p>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashView" style="display:none;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <h2 class="title">Campaign Dashboard</h2>
+      <div><span id="whoami" style="color:var(--muted);margin-right:12px;"></span>
+      <button class="btn" style="border:1px solid var(--border);background:#fff;" id="logoutBtn">Sign out</button></div>
+    </div>
+    <div id="dashNotice"></div>
+
+    <div class="tabs" id="tabs">
+      <button data-tab="projects" class="active">Projects</button>
+      <button data-tab="updates">Updates</button>
+      <button data-tab="reports">Reports</button>
+      <button data-tab="members">Members</button>
+    </div>
+
+    <!-- Projects -->
+    <div id="tab-projects" class="tab-pane">
+      <div class="card" style="margin-bottom:20px;">
+        <h3>Add / edit project</h3>
+        <form class="sn" id="projectForm">
+          <input type="hidden" name="id">
+          <div class="grid c2">
+            <div><label>Title (EN)</label><input name="title" required></div>
+            <div><label>Title (NE)</label><input name="title_ne"></div>
+            <div><label>Pillar</label>
+              <select name="pillar"><option>Project</option><option>Program</option><option>Poll</option><option>Publication</option></select></div>
+            <div><label>Status</label>
+              <select name="status"><option>planned</option><option>ongoing</option><option>completed</option></select></div>
+            <div><label>Progress (%)</label><input name="progress" type="number" min="0" max="100" value="0"></div>
+            <div><label>Location</label><input name="location"></div>
+            <div><label>Start date</label><input name="start_date" type="date"></div>
+          </div>
+          <label>Summary</label><textarea name="summary"></textarea>
+          <p style="margin-top:14px;">
+            <button class="btn primary" type="submit">Save project</button>
+            <button class="btn" type="button" id="projectReset" style="border:1px solid var(--border);background:#fff;">Clear</button>
+          </p>
+        </form>
+      </div>
+      <div class="table-scroll"><table class="data" id="projectsTable"></table></div>
+    </div>
+
+    <!-- Updates -->
+    <div id="tab-updates" class="tab-pane" style="display:none;">
+      <div class="card" style="margin-bottom:20px;">
+        <h3>Publish an update</h3>
+        <form class="sn" id="updateForm">
+          <label>Title</label><input name="title" required>
+          <label>Body</label><textarea name="body" required></textarea>
+          <label><input type="checkbox" name="published" checked style="width:auto;"> Published (visible on Progress page)</label>
+          <p style="margin-top:14px;"><button class="btn primary" type="submit">Save update</button></p>
+        </form>
+      </div>
+      <div class="table-scroll"><table class="data" id="updatesTable"></table></div>
+    </div>
+
+    <!-- Reports -->
+    <div id="tab-reports" class="tab-pane" style="display:none;">
+      <p class="subtitle">Reports submitted from the public Report &amp; Request page.</p>
+      <div class="table-scroll"><table class="data" id="reportsTable"></table></div>
+    </div>
+
+    <!-- Members -->
+    <div id="tab-members" class="tab-pane" style="display:none;">
+      <p class="subtitle">Supporters and partner organisations registered via Get Involved.</p>
+      <div class="table-scroll"><table class="data" id="membersTable"></table></div>
+    </div>
+  </div>
+</div>
+
+<footer class="site"></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
