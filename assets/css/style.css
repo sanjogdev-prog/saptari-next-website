@@ -22,19 +22,20 @@ a { color: var(--pink); text-decoration: none; }
 a:hover { text-decoration: underline; }
 .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-/* Header */
+/* Header — warm golden bar, distinct from the browser chrome */
 header.site {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(255, 253, 251, 0.95); backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #f0c96c, #e6b44c);
+  border-bottom: 2px solid #c99a33;
+  box-shadow: 0 2px 8px rgba(140, 95, 20, 0.18);
 }
 .nav { display: flex; align-items: center; gap: 18px; padding: 10px 20px; max-width: 1180px; margin: 0 auto; flex-wrap: wrap; }
 .nav .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; color: var(--pink-dark); }
 .nav .brand img { height: 40px; width: auto; }
 .nav ul { display: flex; gap: 4px; list-style: none; margin-left: auto; flex-wrap: wrap; }
-.nav ul a { padding: 8px 12px; border-radius: 8px; color: var(--ink); font-weight: 500; font-size: 0.95rem; }
-.nav ul a:hover, .nav ul a.active { background: var(--pink-light); color: var(--pink-dark); text-decoration: none; }
-.lang-toggle { border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; background: #fff; cursor: pointer; font-weight: 600; color: var(--pink-dark); }
+.nav ul a { padding: 8px 12px; border-radius: 8px; color: #4a2c07; font-weight: 600; font-size: 0.95rem; }
+.nav ul a:hover, .nav ul a.active { background: rgba(255, 255, 255, 0.75); color: var(--pink-dark); text-decoration: none; }
+.lang-toggle { border: 1px solid #c99a33; border-radius: 20px; padding: 4px 12px; background: rgba(255,255,255,0.85); cursor: pointer; font-weight: 700; color: var(--pink-dark); }
 
 /* Hero */
 .hero { position: relative; color: #fff; text-align: center; padding: 90px 20px; background: linear-gradient(rgba(70, 5, 35, 0.65), rgba(27, 60, 30, 0.65)), url("../img/cover.jpg") center/cover; }
