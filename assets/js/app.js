@@ -13,6 +13,7 @@
     ["villages.html", "nav.villages", "Villages"],
     ["library.html", "nav.library", "Library"],
     ["progress.html", "nav.progress", "Progress"],
+    ["media.html", "nav.media", "Media"],
     ["report.html", "nav.report", "Report"],
     ["get-involved.html", "nav.join", "Get Involved"]
   ];
