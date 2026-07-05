@@ -10,6 +10,7 @@
     ["index.html", "nav.home", "Home"],
     ["about.html", "nav.about", "About"],
     ["district.html", "nav.district", "District Profile"],
+    ["villages.html", "nav.villages", "Villages"],
     ["library.html", "nav.library", "Library"],
     ["progress.html", "nav.progress", "Progress"],
     ["report.html", "nav.report", "Report"],
