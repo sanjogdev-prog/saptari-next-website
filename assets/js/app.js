@@ -51,6 +51,9 @@
       <div>
         <h4 data-i18n="footer.links">Links</h4>
         <ul>
+          <li><a href="${root}advisors.html">Advisory Council</a></li>
+          <li><a href="${root}partners.html">Partners</a></li>
+          <li><a href="${root}rivers.html">Rivers &amp; Corridors</a></li>
           <li><a href="${root}library.html" data-i18n="nav.library">Library</a></li>
           <li><a href="${root}progress.html" data-i18n="nav.progress">Progress</a></li>
           <li><a href="${root}report.html" data-i18n="nav.report">Report</a></li>
