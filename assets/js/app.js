@@ -57,6 +57,7 @@
           <li><a href="${root}library.html" data-i18n="nav.library">Library</a></li>
           <li><a href="${root}progress.html" data-i18n="nav.progress">Progress</a></li>
           <li><a href="${root}report.html" data-i18n="nav.report">Report</a></li>
+          <li><a href="${root}site-map.html">Site Map</a></li>
           <li><a href="${root}materials/Saptari-Next-Manual-EN.pdf" target="_blank">Campaign Manual (PDF)</a></li>
         </ul>
       </div>
