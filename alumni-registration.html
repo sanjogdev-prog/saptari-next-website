@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alumni Registration — Narendra Memorial Janta Secondary School — Saptari Next</title>
+<meta name="description" content="Register in the digital Alumni Registry of Narendra Memorial Janta Secondary School, Boria, Saptari — part of the Saptari Next school registry and Alumni Network & Association plan.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<!--
+  RECOMMENDED SUPABASE SCHEMA (for whoever next has dashboard/SQL access):
+  create table alumni (
+    id bigint generated always as identity primary key,
+    created_at timestamptz default now(),
+    full_name text, graduation_year text, occupation text,
+    current_city text, country text, contact_number text, email text,
+    facebook text, skills text, volunteer text, areas_of_interest text
+  );
+  alter table alumni enable row level security;
+  create policy "public insert" on alumni for insert to anon with check (true);
+  Until this table exists, the form below falls back to emailing the campaign office directly —
+  no registration is lost either way.
+-->
+</head>
+<body>
+<script>window.SN_BREADCRUMB = [["Home","index.html"],["Villages","villages.html"],["Boria","village-boria.html"],["Narendra Memorial School","school-narendra-memorial.html"],["Alumni Registration"]];</script>
+<header class="site"></header>
+
+<section class="block">
+  <div class="container" style="max-width:820px;">
+    <p style="color:var(--muted);font-weight:700;letter-spacing:1px;">ALUMNI NETWORK &amp; ASSOCIATION</p>
+    <h2 class="title" style="font-size:2rem;">Alumni Registration</h2>
+    <p class="subtitle" style="font-style:italic;">"Once a student, always a member of Narendra Memorial."</p>
+    <p>Narendra Memorial Janta Secondary School, Boria, is building a lifelong network of every former student, one that offers mentorship, scholarships, career guidance and leadership to the students coming up behind them. Registering takes two minutes and adds you to the school's digital Alumni Registry, the foundation for everything from the Annual Alumni Meet to the Alumni Endowment Fund described in the <a href="school-narendra-memorial.html#alumni">full Alumni Network &amp; Association plan</a>.</p>
+
+    <div class="nav-card-grid" style="margin:20px 0;">
+      <a class="nav-card" href="school-narendra-memorial.html#alumni"><span class="n-icon">📖</span><span>Alumni Network Plan<span class="n-sub">Vision, structure, targets</span></span></a>
+      <a class="nav-card" href="village-boria.html"><span class="n-icon">🏘️</span><span>Boria Village Registry<span class="n-sub">The wider village module</span></span></a>
+      <a class="nav-card" href="report.html"><span class="n-icon">✍️</span><span>Report a Correction<span class="n-sub">Fix or add a record</span></span></a>
+    </div>
+
+    <div id="formNotice"></div>
+    <form class="sn card" id="alumniForm">
+      <label>Full name</label>
+      <input name="full_name" required>
+
+      <label>Graduation year (or last year attended)</label>
+      <input name="graduation_year" placeholder="e.g. 2008" required>
+
+      <label>Occupation</label>
+      <input name="occupation" list="occupationList" placeholder="e.g. Teacher, Engineer, Doctor, Entrepreneur…">
+      <datalist id="occupationList">
+        <option value="Teacher"></option>
+        <option value="Engineer"></option>
+        <option value="Doctor"></option>
+        <option value="Lawyer"></option>
+        <option value="Entrepreneur"></option>
+        <option value="Government Officer"></option>
+        <option value="Armed Forces"></option>
+        <option value="Politician"></option>
+        <option value="Journalist"></option>
+        <option value="Social Worker"></option>
+        <option value="Artist"></option>
+        <option value="Student"></option>
+      </datalist>
+
+      <div class="grid c2" style="gap:14px;">
+        <div><label>Current city</label><input name="current_city"></div>
+        <div><label>Country</label><input name="country" placeholder="Nepal"></div>
+      </div>
+
+      <div class="grid c2" style="gap:14px;">
+        <div><label>Contact number</label><input name="contact_number"></div>
+        <div><label>Email</label><input name="email" type="email"></div>
+      </div>
+
+      <label>Facebook (profile or page link)</label>
+      <input name="facebook" placeholder="https://facebook.com/...">
+
+      <label>Skills (optional)</label>
+      <input name="skills" placeholder="e.g. teaching, accounting, carpentry, public speaking">
+
+      <label>Willing to volunteer?</label>
+      <select name="volunteer">
+        <option value="Yes">Yes</option>
+        <option value="Maybe / occasionally">Maybe / occasionally</option>
+        <option value="Not right now">Not right now</option>
+      </select>
+
+      <label style="margin-top:14px;">Areas of interest (choose all that apply)</label>
+      <div class="grid c2" style="gap:6px 14px;margin-top:6px;">
+        <label style="font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" name="interest_mentoring" value="Mentoring students" style="width:auto;">Mentoring students</label>
+        <label style="font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" name="interest_scholarship" value="Scholarships & fundraising" style="width:auto;">Scholarships &amp; fundraising</label>
+        <label style="font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" name="interest_career" value="Career guidance" style="width:auto;">Career guidance</label>
+        <label style="font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" name="interest_infra" value="Infrastructure (adopt a classroom)" style="width:auto;">Infrastructure (adopt a classroom)</label>
+        <label style="font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" name="interest_library" value="Library & technology" style="width:auto;">Library &amp; technology</label>
+        <label style="font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" name="interest_sports" value="Sports & cultural events" style="width:auto;">Sports &amp; cultural events</label>
+        <label style="font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" name="interest_environment" value="Environment & health camps" style="width:auto;">Environment &amp; health camps</label>
+        <label style="font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" name="interest_heritage" value="Heritage & school history" style="width:auto;">Heritage &amp; school history</label>
+      </div>
+
+      <p style="margin-top:20px;"><button class="btn primary" type="submit">Register</button></p>
+    </form>
+
+    <p class="notice info" style="margin-top:16px;">The digital Alumni Registry database is being set up; until it is fully connected, registrations are sent directly to the campaign office by email and added to the registry from there, so nothing is lost in the meantime.</p>
+  </div>
+</section>
+
+<footer class="site"></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("alumniForm");
+  const notice = document.getElementById("formNotice");
+
+  function collectInterests(data) {
+    const labels = {
+      interest_mentoring: "Mentoring students",
+      interest_scholarship: "Scholarships & fundraising",
+      interest_career: "Career guidance",
+      interest_infra: "Infrastructure (adopt a classroom)",
+      interest_library: "Library & technology",
+      interest_sports: "Sports & cultural events",
+      interest_environment: "Environment & health camps",
+      interest_heritage: "Heritage & school history"
+    };
+    return Object.keys(labels).filter(k => data[k]).map(k => labels[k]).join(", ");
+  }
+
+  function mailFallback(data, areas, reason) {
+    const body = encodeURIComponent(
+      `ALUMNI REGISTRATION — Narendra Memorial Janta Secondary School\n\n` +
+      `Name: ${data.full_name}\nGraduation year: ${data.graduation_year}\nOccupation: ${data.occupation || "-"}\n` +
+      `Current city: ${data.current_city || "-"}\nCountry: ${data.country || "-"}\n` +
+      `Contact number: ${data.contact_number || "-"}\nEmail: ${data.email || "-"}\nFacebook: ${data.facebook || "-"}\n` +
+      `Skills: ${data.skills || "-"}\nWilling to volunteer: ${data.volunteer}\nAreas of interest: ${areas || "-"}\n`
+    );
+    location.href = `mailto:${SN.config.CONTACT_EMAIL}?subject=${encodeURIComponent("[Alumni Registry] " + data.full_name + " (" + data.graduation_year + ")")}&body=${body}`;
+    notice.innerHTML = `<p class="notice info">${reason} Your registration was opened in your email app instead — press send there and you're on the list.</p>`;
+  }
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const raw = Object.fromEntries(new FormData(form).entries());
+    const areas = collectInterests(raw);
+    const record = {
+      full_name: raw.full_name, graduation_year: raw.graduation_year, occupation: raw.occupation,
+      current_city: raw.current_city, country: raw.country, contact_number: raw.contact_number,
+      email: raw.email, facebook: raw.facebook, skills: raw.skills, volunteer: raw.volunteer,
+      areas_of_interest: areas
+    };
+
+    if (SN.demoMode()) {
+      mailFallback(raw, areas, "The Alumni Registry database isn't connected yet —");
+      return;
+    }
+
+    try {
+      const { error } = await SN.db().from("alumni").insert(record);
+      if (error) throw error;
+      notice.innerHTML = '<p class="notice ok">Welcome to the Narendra Memorial Alumni Network! You have been added to the registry.</p>';
+      form.reset();
+    } catch (err) {
+      mailFallback(raw, areas, "The Alumni Registry database isn't set up yet —");
+    }
+    notice.scrollIntoView({ behavior: "smooth" });
+  });
+});
+</script>
+</body>
+</html>
