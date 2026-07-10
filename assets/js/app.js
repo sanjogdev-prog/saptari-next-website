@@ -69,6 +69,18 @@
     <p class="fine">© ${new Date().getFullYear()} Saptari Next · Open knowledge: site content and campaign publications are shared under CC BY-SA 4.0 · <a href="${root}library.html#opensource">Open Source</a></p>`;
   }
 
+  // ---------- Breadcrumb ----------
+  // Pages declare: window.SN_BREADCRUMB = [["Home","index.html"], ["Villages","villages.html"], ["Boria"]];
+  // Last entry with no href is the current page (non-clickable).
+  function buildBreadcrumb(trail) {
+    const items = trail.map(([label, href], i) => {
+      const isLast = i === trail.length - 1 || !href;
+      if (isLast) return `<span class="current">${label}</span>`;
+      return `<a href="${root}${href}">${label}</a><span class="sep">\u203a</span>`;
+    }).join("");
+    return `<div class="breadcrumb"><div class="container">${items}</div></div>`;
+  }
+
   // ---------- i18n ----------
   function applyLang(lang) {
     document.documentElement.lang = lang;
@@ -120,6 +132,10 @@
     if (h) h.innerHTML = buildHeader();
     const f = document.querySelector("footer.site");
     if (f) f.innerHTML = buildFooter();
+
+    if (Array.isArray(window.SN_BREADCRUMB) && window.SN_BREADCRUMB.length && h) {
+      h.insertAdjacentHTML("afterend", buildBreadcrumb(window.SN_BREADCRUMB));
+    }
 
     applyLang(localStorage.getItem("sn_lang") || "en");
     document.body.addEventListener("click", e => {
