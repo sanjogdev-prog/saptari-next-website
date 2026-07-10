@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /index-old-backup.html
+
+Sitemap: https://www.saptarinext.com/sitemap.xml
