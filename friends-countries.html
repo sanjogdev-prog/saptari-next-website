@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Friends by Country — Friends of Saptari Next</title>
+<meta name="description" content="Country by country: friends of Saptari Next and how each country's embassy or agencies have supported Saptari district, from Japan's JICA-funded Chandra Nahar canal to India's community development projects.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .country-block { padding:22px 0; border-bottom:1px solid var(--border); }
+  .country-block:last-child { border-bottom:0; }
+  .country-block h3 { font-size:1.3rem; margin-bottom:4px; }
+  .country-block h4 { color:var(--pink-dark); font-size:0.95rem; margin:12px 0 4px; }
+  .country-jump { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 8px; }
+  .country-jump a { padding:6px 12px; background:var(--card); border:1px solid var(--border); border-radius:20px; font-size:0.88rem; font-weight:600; }
+</style>
+</head>
+<body>
+<script>window.SN_BREADCRUMB = [["Home","index.html"],["Friends of Saptari Next","friends.html"],["Countries"]];</script>
+<header class="site"></header>
+
+<section class="block">
+  <div class="container" style="max-width:820px;">
+    <h2 class="title">Friends by Country</h2>
+    <p class="subtitle">Two things, country by country: the friends of Saptari Next connected from there, and what that country — through its embassy, agencies or foundations — has done for Saptari district. Both lists are living and grow as they're documented; most entries below are still open.</p>
+
+    <div class="nav-card-grid" style="margin-bottom:6px;">
+      <a class="nav-card" href="friends.html"><span class="n-icon">🌍</span><span>Friends Map<span class="n-sub">Back to the world map</span></span></a>
+      <a class="nav-card" href="report.html"><span class="n-icon">✍️</span><span>Add Information<span class="n-sub">Know a project we're missing?</span></span></a>
+    </div>
+
+    <div class="country-jump" id="jump"></div>
+
+    <div id="countries"></div>
+
+    <p class="notice info" style="margin-top:20px;">Most countries below don't yet have a confirmed embassy-funded project in Saptari on record — that doesn't mean there isn't one, only that we haven't documented it. If you know of one, or you're a friend of the campaign from anywhere on this list, <a href="report.html">tell us</a>.</p>
+  </div>
+</section>
+
+<footer class="site"></footer>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  const NO_FRIENDS = country => `No named friends have been confirmed yet from ${country}. If that's you, <a href="report.html">tell us</a> and we'll add your name and story here.`;
+  const NO_HELP = "Documentation in progress — no confirmed embassy or agency-funded project in Saptari is on record here yet. Know of one? <a href=\"report.html\">Let us know</a>.";
+
+  const COUNTRIES = [
+    { slug: "canada", flag: "🇨🇦", name: "Canada" },
+    { slug: "qatar", flag: "🇶🇦", name: "Qatar" },
+    { slug: "usa", flag: "🇺🇸", name: "USA" },
+    { slug: "australia", flag: "🇦🇺", name: "Australia" },
+    { slug: "germany", flag: "🇩🇪", name: "Germany" },
+    { slug: "turkey", flag: "🇹🇷", name: "Turkey" },
+    {
+      slug: "india", flag: "🇮🇳", name: "India",
+      help: 'The Embassy of India has funded community development projects directly in Saptari under the Nepal-India Development Cooperation programme. In March 2025, the foundation stone was laid for a new triple-storied building at Shree Janata Secondary School, Surunga Municipality — a school running since 1951 with about 600 students, around 60% of them girls — funded by an NPR 27.6 million grant as a High Impact Community Development Project (HICDP). More broadly, nine HICDPs have been completed in Saptari District since 2003, and the district has received 24 ambulances and two school buses under the same programme.',
+      helpLink: { href: "https://theprint.in/world/nepal-foundation-stone-laid-for-school-building-in-saptari-with-indian-aid/2566664/", label: "ThePrint — foundation stone report" }
+    },
+    { slug: "sri-lanka", flag: "🇱🇰", name: "Sri Lanka" },
+    { slug: "bhutan", flag: "🇧🇹", name: "Bhutan" },
+    {
+      slug: "china", flag: "🇨🇳", name: "China",
+      help: 'Saptari is one of four Nepali districts (with Kathmandu, Dolakha and Mahottari) covered by the Nepal Smiling Children Project — a school meal and food-support programme for children from poor communities, jointly run by the China Foundation for Rural Development and the China NGO Network for International Exchanges, funded through China\'s Global Development and South-South Cooperation Fund. It began reaching these districts from 2020 and was formally launched in July 2022, with roughly 3,600 students benefiting across the four districts.',
+      helpLink: { href: "https://www.nepallivetoday.com/2022/07/11/nepal-smiling-children-project-launched/", label: "Nepal Live Today — project launch" }
+    },
+    { slug: "bangladesh", flag: "🇧🇩", name: "Bangladesh" },
+    { slug: "pakistan", flag: "🇵🇰", name: "Pakistan" },
+    { slug: "south-africa", flag: "🇿🇦", name: "South Africa" },
+    { slug: "myanmar", flag: "🇲🇲", name: "Myanmar" },
+    { slug: "singapore", flag: "🇸🇬", name: "Singapore" },
+    { slug: "malaysia", flag: "🇲🇾", name: "Malaysia" },
+    { slug: "uae", flag: "🇦🇪", name: "UAE (Dubai)" },
+    { slug: "ireland", flag: "🇮🇪", name: "Ireland" },
+    { slug: "netherlands", flag: "🇳🇱", name: "Netherlands" },
+    {
+      slug: "japan", flag: "🇯🇵", name: "Japan",
+      help: 'Through JICA (Japan International Cooperation Agency), Japan funded and rehabilitated the Chandra Nahar Irrigation System in Saptari — Nepal\'s first canal irrigation system, built in the 1920s under Chandra Shumsher and partly designed by Nepal\'s first engineer, Dilli Jung Thapa, who trained in Japan. A JPY 2.256 billion (~NPR 2.05 billion) grant, agreed in September 2022, funded the rehabilitation of 32 major facilities, handed over in 2026 and restoring irrigation to about 11,000 hectares serving some 35,000 households.',
+      helpLink: { href: "https://www.jica.go.jp/english/overseas/nepal/information/press/2022/press220921_01.html", label: "JICA — Chandra Nahar grant" }
+    }
+  ];
+
+  document.getElementById("jump").innerHTML = COUNTRIES.map(c => `<a href="#${c.slug}">${c.flag} ${c.name}</a>`).join("");
+
+  document.getElementById("countries").innerHTML = COUNTRIES.map(c => `
+    <div class="country-block" id="${c.slug}">
+      <h3>${c.flag} ${c.name}</h3>
+      <h4>Friends from ${c.name}</h4>
+      <p>${NO_FRIENDS(c.name)}</p>
+      <h4>How ${c.name} has helped Saptari</h4>
+      <p>${c.help || NO_HELP}</p>
+      ${c.helpLink ? `<p style="margin-top:6px;"><a href="${c.helpLink.href}" target="_blank" rel="noopener">${c.helpLink.label} →</a></p>` : ""}
+    </div>`).join("");
+})();
+</script>
+</body>
+</html>
