@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Friends of Saptari Next — Saptari Next</title>
+<meta name="description" content="Friends of Saptari Next — well-wishers and supporters of the campaign across the world, mapped by country, growing as the diaspora network grows.">
+<link rel="icon" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+  #friendsMap { width:100%; height:440px; border-radius:12px; box-shadow:var(--shadow); z-index:0; }
+  .friend-chip { display:flex; align-items:center; gap:8px; padding:10px 14px; background:var(--card); border:1px solid var(--border); border-radius:10px; font-weight:600; }
+  .friend-chip .flag { font-size:1.3rem; }
+  .friend-chips { display:grid; grid-template-columns:repeat(auto-fill, minmax(170px, 1fr)); gap:10px; margin-top:16px; }
+</style>
+</head>
+<body>
+<script>window.SN_BREADCRUMB = [["Home","index.html"],["Friends of Saptari Next"]];</script>
+<header class="site"></header>
+
+<section class="block">
+  <div class="container">
+    <h2 class="title">Friends of Saptari Next</h2>
+    <p class="subtitle">Beyond the Advisory Council and Partner Organisations, Saptari Next has friends: well-wishers and supporters of the campaign, at home and scattered across the world, who believe in Saptari's future and back it in their own way. This page maps where they are, and will carry their names and stories as they're shared.</p>
+
+    <div class="nav-card-grid" style="margin-bottom:20px;">
+      <a class="nav-card" href="advisors.html"><span class="n-icon">🧭</span><span>Advisory Council<span class="n-sub">Formal advisory role</span></span></a>
+      <a class="nav-card" href="partners.html"><span class="n-icon">🤝</span><span>Partner Organisations<span class="n-sub">Institutional partners</span></span></a>
+      <a class="nav-card" href="get-involved.html"><span class="n-icon">🌍</span><span>Become a Friend<span class="n-sub">Join from anywhere</span></span></a>
+    </div>
+
+    <div id="friendsMap"></div>
+    <p style="font-size:0.85rem;color:var(--muted);margin-top:8px;">Pins mark countries with confirmed friends of the campaign — tap a pin for the country name. Map data © <a class="ext" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.</p>
+
+    <h3 style="color:var(--pink-dark);margin:28px 0 4px;">Countries, so far</h3>
+    <p class="subtitle" style="margin-bottom:4px;">Nineteen countries and counting — this list grows as more friends connect with the campaign.</p>
+    <div class="friend-chips" id="friendChips"></div>
+
+    <p class="notice info" style="margin-top:24px;">Are you a friend of Saptari Next, wherever you are in the world? <a href="get-involved.html">Tell us where you're writing from →</a> and we'll add your country to the map, and your name and story here once you share them.</p>
+  </div>
+</section>
+
+<footer class="site"></footer>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+(function () {
+  const FRIENDS = [
+    { c: "Canada", flag: "🇨🇦", lat: 45.4215, lng: -75.6972 },
+    { c: "Qatar", flag: "🇶🇦", lat: 25.2854, lng: 51.5310 },
+    { c: "USA", flag: "🇺🇸", lat: 38.9072, lng: -77.0369 },
+    { c: "Australia", flag: "🇦🇺", lat: -35.2809, lng: 149.1300 },
+    { c: "Germany", flag: "🇩🇪", lat: 52.5200, lng: 13.4050 },
+    { c: "Turkey", flag: "🇹🇷", lat: 39.9334, lng: 32.8597 },
+    { c: "India", flag: "🇮🇳", lat: 28.6139, lng: 77.2090 },
+    { c: "Sri Lanka", flag: "🇱🇰", lat: 6.9271, lng: 79.8612 },
+    { c: "Bhutan", flag: "🇧🇹", lat: 27.4728, lng: 89.6390 },
+    { c: "China", flag: "🇨🇳", lat: 39.9042, lng: 116.4074 },
+    { c: "Bangladesh", flag: "🇧🇩", lat: 23.8103, lng: 90.4125 },
+    { c: "Pakistan", flag: "🇵🇰", lat: 33.6844, lng: 73.0479 },
+    { c: "South Africa", flag: "🇿🇦", lat: -25.7479, lng: 28.2293 },
+    { c: "Myanmar", flag: "🇲🇲", lat: 16.8409, lng: 96.1735 },
+    { c: "Singapore", flag: "🇸🇬", lat: 1.3521, lng: 103.8198 },
+    { c: "Malaysia", flag: "🇲🇾", lat: 3.1390, lng: 101.6869 },
+    { c: "UAE (Dubai)", flag: "🇦🇪", lat: 25.2048, lng: 55.2708 },
+    { c: "Ireland", flag: "🇮🇪", lat: 53.3498, lng: -6.2603 },
+    { c: "Netherlands", flag: "🇳🇱", lat: 52.3676, lng: 4.9041 }
+  ];
+
+  document.getElementById("friendChips").innerHTML = FRIENDS.map(f =>
+    `<div class="friend-chip"><span class="flag">${f.flag}</span>${f.c}</div>`
+  ).join("");
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const map = L.map("friendsMap", { scrollWheelZoom: false }).setView([15, 30], 2);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 18
+    }).addTo(map);
+    FRIENDS.forEach(f => {
+      L.marker([f.lat, f.lng]).addTo(map)
+        .bindPopup(`<strong>${f.flag} ${f.c}</strong><br>Friends of Saptari Next`);
+    });
+  });
+})();
+</script>
+</body>
+</html>
