@@ -98,7 +98,7 @@
   // these #ids existed) misses — re-run it manually once the sections are in the DOM.
   if (window.location.hash) {
     const target = document.getElementById(window.location.hash.slice(1));
-    if (target) target.scrollIntoView();
+    if (target) target.scrollIntoView({ behavior: "instant", block: "start" });
   }
 })();
 </script>
