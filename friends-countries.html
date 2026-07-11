@@ -93,6 +93,13 @@
       <p>${c.help || NO_HELP}</p>
       ${c.helpLink ? `<p style="margin-top:6px;"><a href="${c.helpLink.href}" target="_blank" rel="noopener">${c.helpLink.label} →</a></p>` : ""}
     </div>`).join("");
+
+  // Content is injected after load, so the browser's own hash-jump (which ran before
+  // these #ids existed) misses — re-run it manually once the sections are in the DOM.
+  if (window.location.hash) {
+    const target = document.getElementById(window.location.hash.slice(1));
+    if (target) target.scrollIntoView();
+  }
 })();
 </script>
 </body>
