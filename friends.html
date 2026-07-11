@@ -34,7 +34,7 @@
     <p style="font-size:0.85rem;color:var(--muted);margin-top:8px;">Pins mark countries with confirmed friends of the campaign — tap a pin for the country name. Map data © <a class="ext" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.</p>
 
     <h3 style="color:var(--pink-dark);margin:28px 0 4px;">Countries, so far</h3>
-    <p class="subtitle" style="margin-bottom:4px;">Nineteen countries and counting — this list grows as more friends connect with the campaign.</p>
+    <p class="subtitle" style="margin-bottom:4px;">Twenty countries and counting — this list grows as more friends connect with the campaign. Tap 🇯🇵 Japan on the map to see what a friendship with a country can look like in practice.</p>
     <div class="friend-chips" id="friendChips"></div>
 
     <p class="notice info" style="margin-top:24px;">Are you a friend of Saptari Next, wherever you are in the world? <a href="get-involved.html">Tell us where you're writing from →</a> and we'll add your country to the map, and your name and story here once you share them.</p>
@@ -59,6 +59,7 @@
     { c: "Sri Lanka", flag: "🇱🇰", lat: 6.9271, lng: 79.8612 },
     { c: "Bhutan", flag: "🇧🇹", lat: 27.4728, lng: 89.6390 },
     { c: "China", flag: "🇨🇳", lat: 39.9042, lng: 116.4074 },
+    { c: "Japan", flag: "🇯🇵", lat: 35.6762, lng: 139.6503, note: "Through JICA (Japan International Cooperation Agency), Japan funded and rehabilitated the Chandra Nahar Irrigation System in Saptari — Nepal's first canal irrigation system, built in the 1920s under Chandra Shumsher and partly designed by Nepal's first engineer, Dilli Jung Thapa, who trained in Japan. A JPY 2.256 billion (~NPR 2.05 billion) grant funded the rehabilitation, handed over in 2026, restoring irrigation to about 11,000 hectares serving some 35,000 households.", link: { href: "https://www.jica.go.jp/english/overseas/nepal/information/press/2022/press220921_01.html", label: "JICA — Chandra Nahar grant" } },
     { c: "Bangladesh", flag: "🇧🇩", lat: 23.8103, lng: 90.4125 },
     { c: "Pakistan", flag: "🇵🇰", lat: 33.6844, lng: 73.0479 },
     { c: "South Africa", flag: "🇿🇦", lat: -25.7479, lng: 28.2293 },
@@ -81,8 +82,11 @@
       maxZoom: 18
     }).addTo(map);
     FRIENDS.forEach(f => {
+      const body = f.note
+        ? `<p style="margin:6px 0;">${f.note}</p>${f.link ? `<a href="${f.link.href}" target="_blank" rel="noopener">${f.link.label} →</a>` : ""}`
+        : "Friends of Saptari Next";
       L.marker([f.lat, f.lng]).addTo(map)
-        .bindPopup(`<strong>${f.flag} ${f.c}</strong><br>Friends of Saptari Next`);
+        .bindPopup(`<strong>${f.flag} ${f.c}</strong><br>${body}`, { maxWidth: f.note ? 280 : 220 });
     });
   });
 })();
